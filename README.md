@@ -1,57 +1,61 @@
-# Project Name
+# MIP SDK Java Wrapper Sample
 
-(short, 1-3 sentenced, description of the project)
+This sample application demonstrates a very basic MIP SDK Java wrapper sample. It'll demonstrate how to create the project, add dependencies, and get to a place where the app can run on both Windows and Ubuntu. 
 
 ## Features
 
 This project framework provides the following features:
 
-* Feature 1
-* Feature 2
-* ...
+* User authentication
+* List Labels
+* Apply Label
+* Read Label
+* Read Protection Information
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
+- Windows 10 or Ubuntu 18.04
+- [MIP SDK Java Wrapper - 1.8.97 Preview](https://aka.ms/mipsdkbins)
+- Visual Studio Code
+- An Azure AD Application Registration for use with a [MIP SDK public client.](https://docs.microsoft.com/en-us/information-protection/develop/setup-configure-mip#register-a-client-application-with-azure-active-directory)
 
 ### Installation
 
-(ideally very short)
+- Windows
+  - Install your JDK of choice.
+  - Install [Maven](http://maven.apache.org/download.cgi)
 
-- npm install [package name]
-- mvn install
-- ...
+- Ubuntu
+  - Install JDK: `sudo apt-get install default-jdk`
+  - Install Maven: `sudo apt-get install maven`
+  - Install MIP SDK Dependencies: `sudo apt-get install scons libgsf-1-dev libssl-dev libsecret-1-dev freeglut3-dev libcpprest-dev libcurl3-dev uuid-dev libboost-all-dev`
 
 ### Quickstart
-(Add steps to get up and running quickly)
 
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
+1. git clone https://github.com/Azure-Samples/mipsdk-filesdk-java-sample.git
+2. cd mipsdk-filesdk-java-sample
+3. Install the MIP SDK JAR:
+  - Windows: `<PATH TO MAVEN>\mvn.cmd org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=<PATH TO MIP SDK>\java-sdk-wrapper.jar`
+  - Ubuntu: `mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=java-sdk-wrapper.jar`
+4. The Java wrapper download has two ZIP files: file.zip and java_wrapper.zip. 
+   
+     - Copy all DLLs or SOs from the **bins\debug** folder in **file.zip** for the appropriate architecture into your project folder root (the cloned project root). 
+     - Copy **mip_java.dll** or **mip_java.so** from the java_wrapper zip file into the project folder root (the cloned project root).
+   >  This requirement of copying to the project root is a bug and will be fixed in a future version. 
+5. Update the ApplicationId on line 22 in App.java to match your application registration in Azure AD.  
+6. Open the project folder in VS Code and load the project when prompted. 
 
+At this point, you should be able to build the project. If your app states that dependencies are missing:
 
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
+1. Press **CTRL-SHIFT-P** and finding `Maven: Add a dependency...`
+2. Search for **msal4j** and install.
+3. Press **CTRL-SHIFT-P** and finding `Maven: Add a dependency...`
+4. Search for **slf4j-simple** and install.
 
 ## Resources
 
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+- [SDK Docs](https://aka.ms/mipsdkdocs)
+- [SDK Samples](https://aka.ms/mipsdksamples)
+- [MSAL for Java](https://github.com/AzureAD/microsoft-authentication-library-for-java)
