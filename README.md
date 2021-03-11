@@ -1,3 +1,12 @@
+---
+page_type: sample
+languages:
+- java
+products:
+- azure
+description: "This sample application demonstrates using the Microsoft Information Protection SDK Java wrapper to label and read a label from a file."
+urlFragment: mipsdk-filesdk-java-sample
+---
 # MIP SDK Java Wrapper Sample
 
 This sample application demonstrates a very basic MIP SDK Java wrapper sample. It'll demonstrate how to create the project, add dependencies, and get to a place where the app can run on both Windows and Ubuntu. 
