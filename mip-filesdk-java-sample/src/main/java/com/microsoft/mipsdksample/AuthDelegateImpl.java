@@ -30,6 +30,7 @@ import com.microsoft.aad.msal4j.IAccount;
 import com.microsoft.aad.msal4j.IAuthenticationResult;
 import com.microsoft.aad.msal4j.InteractiveRequestParameters;
 import com.microsoft.aad.msal4j.MsalException;
+import com.microsoft.aad.msal4j.Prompt;
 import com.microsoft.aad.msal4j.PublicClientApplication;
 import com.microsoft.aad.msal4j.SilentParameters;
 import com.microsoft.informationprotection.ApplicationInfo;
@@ -102,7 +103,8 @@ public class AuthDelegateImpl implements IAuthDelegate {
             if (ex.getCause() instanceof MsalException) {
 
                 InteractiveRequestParameters parameters = InteractiveRequestParameters
-                        .builder(new URI("http://localhost"))
+                        .builder(new URI("http://localhost"))                        
+                        .prompt(Prompt.SELECT_ACCOUNT) // Change this value to avoid repeated auth prompts. 
                         .scopes(SCOPE)
                         .build();
 

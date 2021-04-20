@@ -21,6 +21,13 @@
   <dependencies>
 
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+    </dependency>
+
+
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>2.0.0-alpha1</version>
@@ -36,15 +43,8 @@
     <dependency>
       <groupId>com.microsoft.informationprotection</groupId>
       <artifactId>java-sdk-wrapper</artifactId>
-      <version>1.8.97</version>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
+      <version>1.9.72</version>
+    </dependency>    
   </dependencies>
 
   <build>

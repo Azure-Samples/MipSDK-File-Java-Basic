@@ -4,6 +4,8 @@ languages:
 - java
 products:
 - azure
+- Microsoft Information Protection
+name: "Microsoft Information Protection SDK Java Sample"
 description: "This sample application demonstrates using the Microsoft Information Protection SDK Java wrapper to label and read a label from a file."
 urlFragment: mipsdk-filesdk-java-sample
 ---
@@ -26,7 +28,7 @@ This project framework provides the following features:
 ### Prerequisites
 
 - Windows 10 or Ubuntu 18.04
-- [MIP SDK Java Wrapper - 1.8.97 Preview](https://aka.ms/mipsdkbins)
+- [MIP SDK Java Wrapper - 1.9.xx Preview](https://aka.ms/mipsdkbins)
 - Visual Studio Code
 - An Azure AD Application Registration for use with a [MIP SDK public client.](https://docs.microsoft.com/en-us/information-protection/develop/setup-configure-mip#register-a-client-application-with-azure-active-directory)
 
