@@ -67,19 +67,24 @@ public class Action {
         MIP.initialize(MipComponent.FILE, null);
 
         // Create MIP Configuration
+        // MIP Configuration can be used to set various delegates, feature flags, and other SDK behavior. 
         MipConfiguration mipConfiguration = new MipConfiguration(appInfo, "mip_data", LogLevel.TRACE, false);
         
         // Create MipContext from MipConfiguration
         mipContext = MIP.createMipContext(mipConfiguration);
         
+        // Create the FileProfile and Engine.
         fileProfile = CreateFileProfile();
         fileEngine = CreateFileEngine(fileProfile);
     }
 
     private IFileProfile CreateFileProfile() throws InterruptedException, ExecutionException
     {
+        // The ConsentDelegate is required for all FileProfiles, but fires only when connecting to AD RMS.
         ConsentDelegate consentDelegate = new ConsentDelegate();
-        FileProfileSettings fileProfileSettings = new FileProfileSettings(mipContext, CacheStorageType.ON_DISK, consentDelegate);
+
+        // Create FileProfileSettings, passing in to LoadFileProfileAsync() and getting the result. 
+        FileProfileSettings fileProfileSettings = new FileProfileSettings(mipContext, CacheStorageType.ON_DISK, consentDelegate);        
         Future<IFileProfile> fileProfileFuture = MIP.loadFileProfileAsync(fileProfileSettings);
         IFileProfile fileProfile = fileProfileFuture.get();
         return fileProfile;    
@@ -103,6 +108,7 @@ public class Action {
 
     private IFileHandler CreateFileHandler(FileOptions options, IFileEngine engine) throws InterruptedException, ExecutionException
     {
+        // Create a FileHandler. FileHandlers are used to perform all file-specific operations. 
         FileHandlerObserver observer = new FileHandlerObserver();
         Future<IFileHandler> handlerFuture = engine.createFileHandlerAsync(options.InputFilePath, options.InputFilePath, options.GenerateChangeAuditEvent, observer, null);
         return handlerFuture.get();
@@ -110,6 +116,7 @@ public class Action {
 
     public void ListLabels()
     {
+        // Use the FileEngine to get all labels for the user and display on screen. 
         Collection<Label> labels = fileEngine.getSensitivityLabels();
         labels.forEach(label -> { 
             System.out.println(label.getName() + " : " + label.getId());
@@ -124,18 +131,31 @@ public class Action {
 
     public boolean SetLabel(FileOptions options) throws InterruptedException, ExecutionException
     {
+        // Create a new FileHandler for the specified file and options.        
         IFileHandler fileHandler = CreateFileHandler(options, fileEngine);
 
+        // LabelingOptions is used to set specific attributes about the labeling operation.
+        // If the labeling operations throws a JustificationRequiredException, use the 
+        // setJustificationMessage() and isDowngradeJustified() then retry. 
         LabelingOptions labelingOptions = new LabelingOptions();                    
         labelingOptions.setAssignmentMethod(options.AssignmentMethod);
+
+        //labelingOptions.isDowngradeJustified(true);
+        //labelingOptions.setJustificationMessage("My Justification Message");
+
         Label label = fileEngine.getLabelById(options.LabelId);
 
+        // Attempt to set the label on the FileHandler.
+        // The ProtectionSettings object can be used to write protection as another user
+        // or to change the pfile extension behavior.                         
         fileHandler.setLabel(label, labelingOptions, new ProtectionSettings());
 
         // Check to see if handler has been modified. If not, skip commit. 
         boolean result = false;
         if(fileHandler.isModified())
         {
+            // Commit the result. Will return false if no changes were made. 
+            // Given that it's gated on the isModified() property, this should always be true.
             result = fileHandler.commitAsync(options.OutputFilePath).get();
         }
 
@@ -144,12 +164,14 @@ public class Action {
 
     public ContentLabel GetLabel(FileOptions options) throws InterruptedException, ExecutionException
     {
+        // Create a FileHandler then get the label from the handler. 
         IFileHandler fileHandler = CreateFileHandler(options, fileEngine);
         return fileHandler.getLabel();
     }
 
     public ProtectionDescriptor GetProtection(FileOptions options) throws InterruptedException, ExecutionException
     {
+        // Create a FileHandler then get the protection descriptor from the handler. 
         IFileHandler fileHandler = CreateFileHandler(options, fileEngine);
         return fileHandler.getProtection().getProtectionDescriptor();
     }
