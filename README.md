@@ -56,7 +56,13 @@ This project framework provides the following features:
    >  This requirement of copying to the project root is a bug and will be fixed in a future version. 
 5. Update the ApplicationId on line 22 in App.java to match your application registration in Azure AD.  
 6. Open the project folder in VS Code and load the project when prompted. 
-
+7. Update the following block in **App.java** to include your clientId.
+  ```java
+    appInfo.setApplicationId("YOUR CLIENT ID");
+    appInfo.setApplicationName("MIP SDK Java Sample");
+    appInfo.setApplicationVersion("1.10");
+  ```
+  
 At this point, you should be able to build the project. If your app states that dependencies are missing:
 
 1. Press **CTRL-SHIFT-P** and finding `Maven: Add a dependency...`

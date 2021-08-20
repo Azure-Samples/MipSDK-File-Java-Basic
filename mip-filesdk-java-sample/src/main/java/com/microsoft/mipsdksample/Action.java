@@ -38,6 +38,7 @@ import com.microsoft.informationprotection.Label;
 import com.microsoft.informationprotection.LogLevel;
 import com.microsoft.informationprotection.MIP;
 import com.microsoft.informationprotection.MipComponent;
+import com.microsoft.informationprotection.MipConfiguration;
 import com.microsoft.informationprotection.MipContext;
 import com.microsoft.informationprotection.ProtectionDescriptor;
 import com.microsoft.informationprotection.file.IFileProfile;
@@ -61,8 +62,16 @@ public class Action {
     {
         this.userName = userName;
         authDelegate = new AuthDelegateImpl(appInfo);
+        
+        // Initialize MIP For File SDK components.        
         MIP.initialize(MipComponent.FILE, null);
-        mipContext = MIP.createMipContext(appInfo, "mip_data", LogLevel.TRACE, null, null);
+
+        // Create MIP Configuration
+        MipConfiguration mipConfiguration = new MipConfiguration(appInfo, "mip_data", LogLevel.TRACE, false);
+        
+        // Create MipContext from MipConfiguration
+        mipContext = MIP.createMipContext(mipConfiguration);
+        
         fileProfile = CreateFileProfile();
         fileEngine = CreateFileEngine(fileProfile);
     }
@@ -78,9 +87,15 @@ public class Action {
 
     private IFileEngine CreateFileEngine(IFileProfile profile) throws InterruptedException, ExecutionException
     {
+        // Create the file engine, passing in the username as the first parameter.
+        // This sets the engineId to the username, making it easier to load the cached engine. 
+        // Using cached engines reduces service road trips and will use cached use licenses for protected content.
         FileEngineSettings engineSettings = new FileEngineSettings(userName, authDelegate, "", "en-US");
-        engineSettings.setIdentity(new Identity(userName));        
-        engineSettings.setCloud(com.microsoft.informationprotection.Cloud.COMMERCIAL);
+        
+        // Set the user identity for the engine. This aids in service discovery.
+        engineSettings.setIdentity(new Identity(userName));                
+
+        // Add the engine and get the result. 
         Future<IFileEngine> fileEngineFuture = fileProfile.addEngineAsync(engineSettings);
         IFileEngine fileEngine = fileEngineFuture.get();
         return fileEngine;
@@ -116,7 +131,15 @@ public class Action {
         Label label = fileEngine.getLabelById(options.LabelId);
 
         fileHandler.setLabel(label, labelingOptions, new ProtectionSettings());
-        return fileHandler.commitAsync(options.OutputFilePath).get();
+
+        // Check to see if handler has been modified. If not, skip commit. 
+        boolean result = false;
+        if(fileHandler.isModified())
+        {
+            result = fileHandler.commitAsync(options.OutputFilePath).get();
+        }
+
+        return result;
     }
 
     public ContentLabel GetLabel(FileOptions options) throws InterruptedException, ExecutionException
