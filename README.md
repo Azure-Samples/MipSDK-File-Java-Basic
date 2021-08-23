@@ -49,10 +49,10 @@ This project framework provides the following features:
 3. Install the MIP SDK JAR:
   - Windows: `<PATH TO MAVEN>\mvn.cmd org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=<PATH TO MIP SDK>\java-sdk-wrapper.jar`
   - Ubuntu: `mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=java-sdk-wrapper.jar`
-4. The Java wrapper download has two ZIP files: file.zip and java_wrapper.zip. 
+4. The Java wrapper download contains two folders: file_sdk and java_wrapper. 
    
-     - Copy all DLLs or SOs from the **bins\debug** folder in **file.zip** for the appropriate architecture into your project folder root (the cloned project root). 
-     - Copy **mip_java.dll** or **mip_java.so** from the java_wrapper zip file into the project folder root (the cloned project root).
+     - Copy all DLLs or SOs from the **bins\debug** folder in **file_sdk** for the appropriate architecture into your project folder root (the cloned project root). 
+     - Copy **mip_java.dll** or **mip_java.so** from the java_wrapper folder into the project folder root (the cloned project root).
    >  This requirement of copying to the project root is a bug and will be fixed in a future version. 
 5. Update the ApplicationId on line 22 in App.java to match your application registration in Azure AD.  
 6. Open the project folder in VS Code and load the project when prompted. 
