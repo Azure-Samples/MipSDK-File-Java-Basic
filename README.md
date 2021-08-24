@@ -49,6 +49,9 @@ This project framework provides the following features:
 3. Install the MIP SDK JAR:
   - Windows: `<PATH TO MAVEN>\mvn.cmd org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=<PATH TO MIP SDK>\java-sdk-wrapper.jar`
   - Ubuntu: `mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=java-sdk-wrapper.jar`
+
+**Note:** Not using a fully qualified path for the -Dfile parameter may cause an exception. Use a full path.
+
 4. The Java wrapper download contains two folders: file_sdk and java_wrapper. 
    
      - Copy all DLLs or SOs from the **bins\debug** folder in **file_sdk** for the appropriate architecture into your project folder root (the cloned project root). 
