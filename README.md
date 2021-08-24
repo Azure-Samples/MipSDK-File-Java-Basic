@@ -4,7 +4,6 @@ languages:
 - java
 products:
 - azure
-- Microsoft Information Protection
 description: "This sample application demonstrates using the Microsoft Information Protection SDK Java wrapper to label and read a label from a file."
 urlFragment: mipsdk-filesdk-java-sample
 ---
