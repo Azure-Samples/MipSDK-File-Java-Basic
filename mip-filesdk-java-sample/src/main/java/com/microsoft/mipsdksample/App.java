@@ -44,7 +44,7 @@ public class App {
         ApplicationInfo appInfo = new ApplicationInfo();
         FileOptions options = new FileOptions();
 
-        appInfo.setApplicationId("YOUR CLIENT ID");
+        appInfo.setApplicationId("46d42b3f-c156-46b7-9f7b-55da52c07b8c");
         appInfo.setApplicationName("MIP SDK Java Sample");
         appInfo.setApplicationVersion("1.10");
 
