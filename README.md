@@ -27,7 +27,7 @@ This project framework provides the following features:
 ### Prerequisites
 
 - Windows 10 or Ubuntu 18.04
-- [MIP SDK Java Wrapper - 1.9.xx Preview](https://aka.ms/mipsdkbins)
+- [MIP SDK Java Wrapper - 1.10 Preview](https://aka.ms/mipsdkbins)
 - Visual Studio Code
 - An Azure AD Application Registration for use with a [MIP SDK public client.](https://docs.microsoft.com/en-us/information-protection/develop/setup-configure-mip#register-a-client-application-with-azure-active-directory)
 
