@@ -44,6 +44,7 @@ import com.microsoft.informationprotection.ProtectionDescriptor;
 import com.microsoft.informationprotection.file.IFileProfile;
 import com.microsoft.informationprotection.file.LabelingOptions;
 import com.microsoft.informationprotection.file.ProtectionSettings;
+import com.microsoft.informationprotection.internal.FunctionalityFilterType;
 import com.microsoft.informationprotection.internal.callback.FileHandlerObserver;
 import com.microsoft.informationprotection.file.FileEngineSettings;
 import com.microsoft.informationprotection.file.FileProfileSettings;
@@ -64,7 +65,7 @@ public class Action {
         authDelegate = new AuthDelegateImpl(appInfo);
         
         // Initialize MIP For File SDK components.        
-        MIP.initialize(MipComponent.FILE, null);
+        MIP.initialize(MipComponent.FILE, "C:\\mip\\releases\\1.11.53\\java\\file\\bins\\debug\\amd64");
 
         // Create MIP Configuration
         // MIP Configuration can be used to set various delegates, feature flags, and other SDK behavior. 
@@ -91,15 +92,19 @@ public class Action {
     }
 
     private IFileEngine CreateFileEngine(IFileProfile profile) throws InterruptedException, ExecutionException
-    {
+    {                    
         // Create the file engine, passing in the username as the first parameter.
         // This sets the engineId to the username, making it easier to load the cached engine. 
         // Using cached engines reduces service road trips and will use cached use licenses for protected content.
         FileEngineSettings engineSettings = new FileEngineSettings(userName, authDelegate, "", "en-US");
-        
+     
+        // Uncomment to set a functionality filter. These filters are useful for filtering or including labels based on protection type.
+        // The example below will result in removal of labels with user-defined permissions. 
+        //engineSettings.configureFunctionality(FunctionalityFilterType.CUSTOM, false);      
+          
         // Set the user identity for the engine. This aids in service discovery.
         engineSettings.setIdentity(new Identity(userName));                
-
+   
         // Add the engine and get the result. 
         Future<IFileEngine> fileEngineFuture = fileProfile.addEngineAsync(engineSettings);
         IFileEngine fileEngine = fileEngineFuture.get();

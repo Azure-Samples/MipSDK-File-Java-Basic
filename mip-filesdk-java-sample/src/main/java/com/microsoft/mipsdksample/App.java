@@ -46,7 +46,7 @@ public class App {
 
         appInfo.setApplicationId("YOUR CLIENT ID");
         appInfo.setApplicationName("MIP SDK Java Sample");
-        appInfo.setApplicationVersion("1.10");
+        appInfo.setApplicationVersion("1.11");
 
         System.out.print("Enter a username: ");
         String userName = reader.readLine();
