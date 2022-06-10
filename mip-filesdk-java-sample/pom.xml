@@ -46,7 +46,7 @@
     <dependency>
       <groupId>com.microsoft.informationprotection</groupId>
       <artifactId>java-sdk-wrapper</artifactId>
-      <version>1.11.53</version>
+      <version>1.12.61</version>
     </dependency>    
   </dependencies>
 
