@@ -20,22 +20,17 @@
 
   <dependencies>
 
-      <dependencies>
-        <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-          <version>1.7.28</version>
-        </dependency>
-      </dependencies>
-    </dependencyManagement>
-
+	<dependency>
+	  <groupId>org.slf4j</groupId>
+	  <artifactId>slf4j-api</artifactId>
+	  <version>1.7.28</version>
+	</dependency>
 
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>msal4j</artifactId>
       <version>1.11.0</version>
     </dependency>
-
 
     <dependency>
       <groupId>junit</groupId>
