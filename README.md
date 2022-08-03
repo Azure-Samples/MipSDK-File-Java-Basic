@@ -3,9 +3,11 @@ page_type: sample
 languages:
 - java
 products:
-- azure
+- m365
+- office-365
 name: "MIP File SDK Java Sample"
 description: "This sample application demonstrates using the Microsoft Information Protection SDK Java wrapper to label and read a label from a file."
+urlFragment: MipSDK-File-Java-Basic
 ---
 
 # MIP SDK Java Wrapper Sample
