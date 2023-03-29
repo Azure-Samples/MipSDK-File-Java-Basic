@@ -65,7 +65,7 @@ This project framework provides the following features:
   ```java
     appInfo.setApplicationId("YOUR CLIENT ID");
     appInfo.setApplicationName("MIP SDK Java Sample");
-    appInfo.setApplicationVersion("1.11");
+    appInfo.setApplicationVersion("1.13");
   ```
   
 At this point, you should be able to build the project. If your app states that dependencies are missing:
