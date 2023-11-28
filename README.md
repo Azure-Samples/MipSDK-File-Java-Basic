@@ -46,8 +46,8 @@ This project framework provides the following features:
 
 ### Quickstart
 
-1. git clone https://github.com/Azure-Samples/mipsdk-filesdk-java-sample.git
-2. cd mipsdk-filesdk-java-sample
+1. git clone https://github.com/Azure-Samples/MipSDK-File-Java-Basic
+2. cd MipSDK-File-Java-Basic
 3. Install the MIP SDK JAR:
   - Windows: `<PATH TO MAVEN>\mvn.cmd org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=<PATH TO MIP SDK>\java-sdk-wrapper.jar`
   - Ubuntu: `mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=java-sdk-wrapper.jar`
