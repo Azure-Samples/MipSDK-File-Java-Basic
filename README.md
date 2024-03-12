@@ -29,7 +29,7 @@ This project framework provides the following features:
 ### Prerequisites
 
 - Windows 10 or Ubuntu 18.04/20.04
-- [MIP SDK Java Wrapper - 1.13 Preview](https://aka.ms/mipsdkbins)
+- [MIP SDK Java Wrapper - 1.14 Preview](https://aka.ms/mipsdkbins)
 - Visual Studio Code
 - An Azure AD Application Registration for use with a [MIP SDK public client.](https://docs.microsoft.com/en-us/information-protection/develop/setup-configure-mip#register-a-client-application-with-azure-active-directory)
 
@@ -48,7 +48,7 @@ This project framework provides the following features:
 
 1. git clone https://github.com/Azure-Samples/mipsdk-filesdk-java-sample.git
 2. cd mipsdk-filesdk-java-sample
-3. Install the MIP SDK JAR:
+3. Install the MIP SDK JAR. This JAR file is located inside the MIP SDK Java Wrapper, available at https://aka.ms/mipsdkbins. Download and extract the JAR locally.
   - Windows: `<PATH TO MAVEN>\mvn.cmd org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=<PATH TO MIP SDK>\java-sdk-wrapper.jar`
   - Ubuntu: `mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file  -Dfile=java-sdk-wrapper.jar`
 
@@ -65,7 +65,7 @@ This project framework provides the following features:
   ```java
     appInfo.setApplicationId("YOUR CLIENT ID");
     appInfo.setApplicationName("MIP SDK Java Sample");
-    appInfo.setApplicationVersion("1.13");
+    appInfo.setApplicationVersion("1.14");
   ```
   
 At this point, you should be able to build the project. If your app states that dependencies are missing:
