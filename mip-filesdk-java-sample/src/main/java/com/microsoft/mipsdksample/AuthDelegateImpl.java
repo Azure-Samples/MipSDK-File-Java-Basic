@@ -62,6 +62,12 @@ public class AuthDelegateImpl implements IAuthDelegate {
         }
 
         AUTHORITY = authority;
+
+        if (AUTHORITY.toLowerCase().contains("common")) {
+            URI authorityUri = new URI(AUTHORITY);
+            AUTHORITY = String.format("https://%s/%s", authorityUri.getHost(), tenant);
+        }
+        
         String token = "";
         try {
             token = acquireTokenInteractive().accessToken();
