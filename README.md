@@ -28,7 +28,7 @@ This project framework provides the following features:
 
 ### Prerequisites
 
-- Windows 10 or Ubuntu 18.04/20.04
+- Windows 11 or Ubuntu 20.04/22.04
 - [MIP SDK Java Wrapper - 1.14 Preview](https://aka.ms/mipsdkbins)
 - Visual Studio Code
 - An Azure AD Application Registration for use with a [MIP SDK public client.](https://docs.microsoft.com/en-us/information-protection/develop/setup-configure-mip#register-a-client-application-with-azure-active-directory)
@@ -67,6 +67,7 @@ This project framework provides the following features:
     appInfo.setApplicationName("MIP SDK Java Sample");
     appInfo.setApplicationVersion("1.14");
   ```
+8. Update line 68 in **Action.java** to include the path to where you've extracted the MIP SDK DLLs.  
   
 At this point, you should be able to build the project. If your app states that dependencies are missing:
 
