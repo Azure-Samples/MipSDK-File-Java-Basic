@@ -33,38 +33,53 @@ import com.microsoft.aad.msal4j.MsalException;
 import com.microsoft.aad.msal4j.Prompt;
 import com.microsoft.aad.msal4j.PublicClientApplication;
 import com.microsoft.aad.msal4j.SilentParameters;
+import com.microsoft.aad.msal4j.SystemBrowserOptions;
 import com.microsoft.informationprotection.ApplicationInfo;
 import com.microsoft.informationprotection.IAuthDelegate;
 import com.microsoft.informationprotection.Identity;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Set;
 
 public class AuthDelegateImpl implements IAuthDelegate {
 
-    private static String CLIENT_ID = "";
-    private static String AUTHORITY = "";
-    private static Set<String> SCOPE = Collections.singleton("");
+    // Set to true if application registration is multi-tenant
+    private static boolean isMultiTenant = true;
 
-    public AuthDelegateImpl(ApplicationInfo appInfo)
-    {
-        CLIENT_ID = appInfo.getApplicationId();
+    // Only required if application registratio is set to single tenant
+    private static String tenantId = "d86993cb-5731-4a0e-a83c-464c851bf053";
+    
+    private static ApplicationInfo _appInfo;
+
+    public AuthDelegateImpl(ApplicationInfo appInfo) {
+        _appInfo = appInfo;
     }
 
     @Override
     public String acquireToken(Identity userName, String authority, String resource, String claims) {
-        if(resource.endsWith("/")){
-            SCOPE = Collections.singleton(resource + ".default");        
-        }
-        else {
-            SCOPE = Collections.singleton(resource + "/.default");        
+
+        // If the application is a single tenant application, replace /common with the
+        // tenant Id.
+        if (authority.toLowerCase().contains("common") && isMultiTenant == false) {
+
+            URI authorityUri;
+            try {
+                authorityUri = new URI(authority);
+            } catch (URISyntaxException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "";
+            }
+
+            authority = String.format("https://%s/%s", authorityUri.getHost(), tenantId);
         }
 
-        AUTHORITY = authority;
         String token = "";
         try {
-            token = acquireTokenInteractive().accessToken();
+            token = acquireTokenInteractive(authority, resource, claims)
+                    .accessToken();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -72,29 +87,38 @@ public class AuthDelegateImpl implements IAuthDelegate {
         return token;
     }
 
-    
-    private static IAuthenticationResult acquireTokenInteractive() throws Exception {
+    private static IAuthenticationResult acquireTokenInteractive(String authority, String resource, String claims)
+            throws Exception {
 
-        // Load token cache from file and initialize token cache aspect. The token cache will have
-        // dummy data, so the acquireTokenSilently call will fail.
+        Set<String> scopes = Collections.singleton("");
+
+        // Append .default to resource to generate scopes
+        if (resource.endsWith("/")) {
+            scopes = Collections.singleton(resource + ".default");
+        } else {
+            scopes = Collections.singleton(resource + "/.default");
+        }
+
+        // Load token cache from file and initialize token cache aspect. The token cache
+        // will have dummy data, so the acquireTokenSilently call will fail.
         TokenCacheAspect tokenCacheAspect = new TokenCacheAspect("sample_cache.json");
 
-        PublicClientApplication pca = PublicClientApplication.builder(CLIENT_ID)
-                .authority(AUTHORITY)
+        PublicClientApplication pca = PublicClientApplication.builder(_appInfo.getApplicationId())
+                .authority(authority)
                 .setTokenCacheAccessAspect(tokenCacheAspect)
                 .build();
 
         Set<IAccount> accountsInCache = pca.getAccounts().join();
-        // Take first account in the cache. In a production application, you would filter
+        // Take first account in the cache. In a production application, you would
+        // filter
         // accountsInCache to get the right account for the user authenticating.
         IAccount account = accountsInCache.iterator().next();
 
         IAuthenticationResult result;
         try {
-            SilentParameters silentParameters =
-                    SilentParameters
-                            .builder(SCOPE, account)
-                            .build();
+            SilentParameters silentParameters = SilentParameters
+                    .builder(scopes, account)
+                    .build();
 
             // try to acquire token silently. This call will fail since the token cache
             // does not have any data for the user you are trying to acquire a token for
@@ -103,13 +127,12 @@ public class AuthDelegateImpl implements IAuthDelegate {
             if (ex.getCause() instanceof MsalException) {
 
                 InteractiveRequestParameters parameters = InteractiveRequestParameters
-                        .builder(new URI("http://localhost"))                        
-                        .prompt(Prompt.SELECT_ACCOUNT) // Change this value to avoid repeated auth prompts. 
-                        .scopes(SCOPE)
+                        .builder(new URI("http://localhost"))
+                        .prompt(Prompt.SELECT_ACCOUNT) // Change this value to avoid repeated auth prompts.
+                        .scopes(scopes)
+                        .claimsChallenge(claims)
                         .build();
 
-                // Try to acquire a token interactively with system browser. If successful, you should see
-                // the token and account information printed out to console
                 result = pca.acquireToken(parameters).join();
             } else {
                 // Handle other exceptions accordingly

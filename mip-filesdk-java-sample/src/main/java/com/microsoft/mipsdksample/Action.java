@@ -65,7 +65,7 @@ public class Action {
         authDelegate = new AuthDelegateImpl(appInfo);
         
         // Initialize MIP For File SDK components.        
-        MIP.initialize(MipComponent.FILE, "C:\\mip\\releases\\1.11.53\\java\\file\\bins\\debug\\amd64");
+        MIP.initialize(MipComponent.FILE, "C:\\mip\\binaries\\java-windows\\bins\\release\\amd64");
 
         // Create MIP Configuration
         // MIP Configuration can be used to set various delegates, feature flags, and other SDK behavior. 
